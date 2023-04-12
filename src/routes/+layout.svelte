@@ -2,4 +2,6 @@
 	import '../app.css';
 </script>
 
-<slot />
+<div class="font-base font-medium">
+	<slot />
+</div>
