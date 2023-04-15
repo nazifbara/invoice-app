@@ -1,19 +1,35 @@
 <script lang="ts">
-	export let variant = 'primary';
+	import { createEventDispatcher } from 'svelte';
 
-	const commons = [
-		'px-6',
-		'py-4',
-		'rounded-full',
-		'font-bold',
-		'transition-colors',
-		'duration-300'
-	];
+	export let variant: 'primary' | 'edit' | 'save' | 'danger' = 'primary';
+	export let disabled: boolean = false;
 
-	const variants: { [key: string]: string[] } = {
-		primary: [...commons, 'bg-primary', 'text-white', 'hover:bg-primary2'],
+	const dispatch = createEventDispatcher();
+
+	const handleClick = () => {
+		if (!disabled) {
+			dispatch('click');
+		}
+	};
+
+	const getVariantClasses = () => {
+		const commons = [
+			'px-6',
+			'py-4',
+			'rounded-full',
+			'font-bold',
+			'transition-colors',
+			'duration-300'
+		];
+
+		const variantClasses = variants[variant];
+
+		return [...commons, ...variantClasses].join(' ');
+	};
+
+	const variants: { [key in typeof variant]: string[] } = {
+		primary: ['bg-primary', 'text-white', 'hover:bg-primary2'],
 		edit: [
-			...commons,
 			'bg-[#F9FAFE]',
 			'text-darkText2',
 			'hover:bg-lightText2',
@@ -22,19 +38,16 @@
 			'dark:hover:bg-white'
 		],
 		save: [
-			...commons,
 			'bg-draft',
 			'text-[#888EB0]',
 			'hover:bg-darkText',
 			'dark:text-lightText2',
 			'dark:hover:bg-darkBg2'
 		],
-		danger: [...commons, 'bg-danger', 'text-white', 'hover:bg-danger2']
+		danger: ['bg-danger', 'text-white', 'hover:bg-danger2']
 	};
-
-	const classNames = variants[variant].join(' ');
 </script>
 
-<button class={classNames}>
+<button class={getVariantClasses()} {disabled} on:click={handleClick}>
 	<slot />
 </button>
