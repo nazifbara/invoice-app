@@ -1,6 +1,15 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import InvoiceBtn from '$lib/components/InvoiceBtn.svelte';
+	import Typography from '$lib/components/Typography.svelte';
 </script>
+
+<Typography el="h2" variant="h1">Custom</Typography>
+<div class="grid gap-3 p-10 justify-start">
+	<InvoiceBtn />
+</div>
+
+<Typography el="h2" variant="h1">Base</Typography>
 
 <div class="grid gap-3 p-10 justify-start">
 	<Button variant="primary">Primary button</Button>

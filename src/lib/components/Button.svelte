@@ -3,6 +3,7 @@
 
 	export let variant: 'primary' | 'edit' | 'save' | 'danger' = 'primary';
 	export let disabled: boolean = false;
+	export let compact = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -13,14 +14,8 @@
 	};
 
 	const getVariantClasses = () => {
-		const commons = [
-			'px-6',
-			'py-4',
-			'rounded-full',
-			'font-bold',
-			'transition-colors',
-			'duration-300'
-		];
+		const paddings = compact ? 'py-2 pl-2 pr-4' : 'px-6 py-4';
+		const commons = [paddings, 'rounded-full', 'font-bold', 'transition-colors', 'duration-300'];
 
 		const variantClasses = variants[variant];
 
