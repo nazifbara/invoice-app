@@ -1,12 +1,14 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import InvoiceBtn from '$lib/components/InvoiceBtn.svelte';
+	import ItemBtn from '$lib/components/ItemBtn.svelte';
 	import Typography from '$lib/components/Typography.svelte';
 </script>
 
 <Typography el="h2" variant="h1">Custom</Typography>
-<div class="grid gap-3 p-10 justify-start">
+<div class="grid gap-3 p-10">
 	<InvoiceBtn />
+	<ItemBtn />
 </div>
 
 <Typography el="h2" variant="h1">Base</Typography>

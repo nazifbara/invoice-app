@@ -4,7 +4,7 @@
 </script>
 
 <Button compact>
-	<div class="flex flex-row gap-4 items-center">
+	<div class="flex flex-row gap-4 items-center justify-center">
 		<span class="w-8 aspect-square bg-white rounded-full flex items-center justify-center"
 			><Icon name="plus" /></span
 		>
