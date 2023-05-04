@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let options: { value: string; label: string }[] = [];
-	export let label: string = '';
-	export let name: string = '';
+	export let label = '';
+	export let name = '';
 </script>
 
 <label class="flex flex-col gap-3">
