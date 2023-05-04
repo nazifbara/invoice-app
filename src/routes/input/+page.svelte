@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TextField from '$lib/components/TextField.svelte';
+	import InputField from '$lib/components/InputField.svelte';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 
 	const options = [
@@ -12,10 +12,12 @@
 
 <div class="grid gap-10 p-10 justify-start">
 	<Dropdown label="Payment Terms" {options} />
-	<TextField label="Street Address" />
+	<InputField label="Street Address" />
+	<InputField type="date" label="Street Address" />
 </div>
 
 <div class="grid gap-3 p-10 justify-start bg-[#141625] dark">
 	<Dropdown label="Payment Terms" {options} />
-	<TextField label="Street Address" />
+	<InputField label="Street Address" />
+	<InputField type="date" label="Street Address" />
 </div>
