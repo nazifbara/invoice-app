@@ -12,6 +12,7 @@ export default {
 				primary2: '#9277FF',
 				darkText: '#0C0E16',
 				darkText2: '#7E88C3',
+				darkText3: '#888EB0',
 				darkBg: '#141625',
 				darkBg2: '#1E2139',
 				lightBg: '#F8F8FB',

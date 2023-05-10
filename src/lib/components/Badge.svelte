@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let type: 'paid' | 'pending' | 'draft' = 'pending';
+	export let type: string = 'pending';
 	let color = {
 		paid: 'text-success bg-success2 before:bg-success',
 		pending: 'text-warning bg-warning2 before:bg-warning',
