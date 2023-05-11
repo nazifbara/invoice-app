@@ -35,20 +35,20 @@
         `}
 			>
 				<span class="font-bold before:content-['#'] before:text-darkText2 mb-4 sm:mb-0">
-					<Typography el="span" variant="h4" inline>
+					<Typography as="span" variant="h4" inline>
 						{invoice.id}
 					</Typography>
 				</span>
 				<span class="self-center sm:col-start-2">
-					<Typography el="span" variant="body2">Due {formatDate(invoice.paymentDue)}</Typography>
+					<Typography as="span" variant="body2">Due {formatDate(invoice.paymentDue)}</Typography>
 				</span>
 				<span class="col-start-2 row-start-1 mb-4 sm:mb-0 sm:col-start-3">
-					<Typography el="span" variant="body1">{invoice.clientName}</Typography>
+					<Typography as="span" variant="body1">{invoice.clientName}</Typography>
 				</span>
 				<span
 					class="col-start-1 row-start-3 self-center sm:col-start-4 sm:row-start-1 sm:justify-self-end"
 				>
-					<Typography el="span" variant="h3">{formatPrice(invoice.total)}</Typography>
+					<Typography as="span" variant="h3">{formatPrice(invoice.total)}</Typography>
 				</span>
 				<span class="row-span-2 sm:col-start-5 sm:row-span-1"><Badge type={invoice.status} /></span>
 				<span class="hidden sm:inline"><Icon name="arrowRight" /></span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let el = 'p';
+	export let as = 'p';
 	export let variant = 'body1';
 	export let inline = false;
 
@@ -16,6 +16,6 @@
 	const classNames = variants[variant].join(' ');
 </script>
 
-<svelte:element this={el} class="{classNames} " class:inline>
+<svelte:element this={as} class="{classNames} " class:inline>
 	<slot />
 </svelte:element>
