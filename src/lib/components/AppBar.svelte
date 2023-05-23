@@ -29,7 +29,6 @@
       border-b-0
       border-r
       border-r-[#494E6E]
-
       lg:w-full
       lg:border-t
       lg:border-r-0
