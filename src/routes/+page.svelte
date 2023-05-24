@@ -16,8 +16,8 @@
 			</Typography>
 		</div>
 		<div class="flex gap-[1.125rem]">
-			<button class="flex items-center font-bold gap-3 md:gap-4">
-				<Typography as="span" variant="body1">
+			<button class="flex items-center gap-3 md:gap-4">
+				<Typography as="span" variant="body1" bold>
 					<span class="hidden md:inline">Filter by status</span>
 					<span class="md:hidden">Filter</span>
 				</Typography>

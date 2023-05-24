@@ -2,6 +2,7 @@
 	export let as = 'p';
 	export let variant = 'body1';
 	export let inline = false;
+	export let bold = false;
 
 	const variants: { [key: string]: string[] } = {
 		h1: ['text-xl', 'md:leading-[1.88]', 'md:text-[2rem]', 'font-bold', 'dark:text-lightText'],
@@ -16,6 +17,6 @@
 	const classNames = variants[variant].join(' ');
 </script>
 
-<svelte:element this={as} class="{classNames} " class:inline>
+<svelte:element this={as} class="{classNames} " class:inline class:font-bold={bold}>
 	<slot />
 </svelte:element>
