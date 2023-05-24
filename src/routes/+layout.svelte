@@ -4,10 +4,12 @@
 </script>
 
 <div class="font-base font-medium text-xs">
-	<AppBar />
-	<main
-		class="max-w-[45.625rem] mx-auto pt-[6.5rem] md:pt-[8.5rem] lg:pt-[4.5rem] lg:pl-[6.438rem]"
-	>
-		<slot />
-	</main>
+	<div class="bg-lightBg dark:bg-darkBg">
+		<AppBar />
+		<main
+			class=" max-w-[45.625rem] px-6 mx-auto py-[6.5rem] md:px-12 md:py-[8.5rem] lg:px-0 lg:py-[4.5rem] lg:pl-[6.438rem]"
+		>
+			<slot />
+		</main>
+	</div>
 </div>

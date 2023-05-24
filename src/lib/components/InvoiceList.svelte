@@ -9,7 +9,7 @@
 	export let data: Invoice[] = [];
 </script>
 
-<ul class="grid gap-4 max-w-[42rem]">
+<ul class="grid gap-4">
 	{#each data as invoice}
 		<li>
 			<a
