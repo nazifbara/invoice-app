@@ -12,10 +12,12 @@
 	class={`
     flex
     gap-2
-    font-bold
     items-center
     justify-center
     p-3
+    font-bold
+    w-full
+    max-w-[6.5rem]
     rounded-md
     before:block
     ${color}

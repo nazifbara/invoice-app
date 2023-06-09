@@ -15,6 +15,7 @@ export default {
 				darkText3: '#888EB0',
 				darkBg: '#141625',
 				darkBg2: '#1E2139',
+				darkBg3: '#252945',
 				lightBg: '#F8F8FB',
 				lightBg2: '#FFF',
 				lightText: '#FFF',
