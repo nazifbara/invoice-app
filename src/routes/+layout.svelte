@@ -1,9 +1,13 @@
 <script>
 	import '../app.css';
 	import AppBar from '$lib/components/AppBar.svelte';
+
+	import { theme } from '$lib/stores';
+
+	console.log($theme);
 </script>
 
-<div class="font-base font-medium text-xs">
+<div class={`${$theme} font-base font-medium text-xs`}>
 	<div class="bg-lightBg dark:bg-darkBg min-h-screen">
 		<AppBar />
 		<main
