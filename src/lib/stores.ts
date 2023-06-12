@@ -1,29 +1,30 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
+const getInitialTheme = () => {
+	if (browser) {
+		const storedTheme = localStorage.getItem('theme');
+		if (storedTheme) {
+			return storedTheme;
+		}
+		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			return 'dark';
+		}
+	}
+	return 'light';
+};
+
 export const theme = (() => {
-	let initialValue = 'light';
-
-	if (browser && localStorage.getItem('theme')) {
-		initialValue = localStorage.getItem('theme') ?? initialValue;
-	}
-
-	if (
-		browser &&
-		!localStorage.getItem('theme') &&
-		window.matchMedia('(prefers-color-scheme: dark)').matches
-	) {
-		initialValue = 'dark';
-	}
-
-	const { subscribe, update } = writable<string>(initialValue);
+	const { subscribe, update } = writable<string>(getInitialTheme());
 
 	return {
 		subscribe,
 		toggle: () =>
-			update((theme) => {
-				const newTheme = theme === 'light' ? 'dark' : 'light';
-				browser && localStorage.setItem('theme', newTheme);
+			update((currentTheme) => {
+				const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+				if (browser) {
+					localStorage.setItem('theme', newTheme);
+				}
 				return newTheme;
 			})
 	};
