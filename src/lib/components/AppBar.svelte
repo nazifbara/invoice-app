@@ -10,7 +10,9 @@
     flex
     justify-between
     fixed
+    z-30
     w-screen
+    dark:bg-darkBg2
     lg:w-[6.438rem]
     lg:h-screen
     lg:flex-col

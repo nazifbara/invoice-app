@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import type { InvoiceFormState, InvoiceFormType } from './types';
 
 const getInitialTheme = () => {
 	if (browser) {
@@ -27,5 +28,16 @@ export const theme = (() => {
 				}
 				return newTheme;
 			})
+	};
+})();
+
+export const invoiceForm = (() => {
+	const initialState: InvoiceFormState = { opened: false, type: 'new' };
+	const { subscribe, update } = writable<InvoiceFormState>(initialState);
+
+	return {
+		subscribe,
+		open: (type: InvoiceFormType) => update((state) => ({ ...state, type, opened: true })),
+		close: () => update((state) => ({ ...state, opened: false }))
 	};
 })();

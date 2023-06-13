@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { invoiceForm } from '$lib/stores';
+
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
 </script>
 
-<Button compact>
+<Button on:click={() => invoiceForm.open('new')} compact>
 	<div class="flex flex-row gap-2 md:gap-4 items-center justify-center">
 		<span class="w-8 aspect-square bg-white rounded-full flex items-center justify-center"
 			><Icon name="plus" /></span

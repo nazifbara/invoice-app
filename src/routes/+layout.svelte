@@ -1,11 +1,13 @@
 <script>
 	import '../app.css';
-	import AppBar from '$lib/components/AppBar.svelte';
-
 	import { theme } from '$lib/stores';
+
+	import AppBar from '$lib/components/AppBar.svelte';
+	import InvoiceForm from '$lib/components/InvoiceForm.svelte';
 </script>
 
 <div class={`${$theme} font-base font-medium text-xs`}>
+	<InvoiceForm />
 	<div class="bg-lightBg dark:bg-darkBg min-h-screen">
 		<AppBar />
 		<main
