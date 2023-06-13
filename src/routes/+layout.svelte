@@ -3,8 +3,6 @@
 	import AppBar from '$lib/components/AppBar.svelte';
 
 	import { theme } from '$lib/stores';
-
-	console.log($theme);
 </script>
 
 <div class={`${$theme} font-base font-medium text-xs`}>

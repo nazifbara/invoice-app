@@ -2,7 +2,7 @@
 	import data from '$lib/data.json';
 	import { page } from '$app/stores';
 	import Typography from '$lib/components/Typography.svelte';
-	import Icon from '$lib/components/Icon.svelte';
+	import GoBackBtn from '$lib/components/GoBack.svelte';
 	import Badge from '$lib/components/Badge.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { formatDate, formatPrice } from '$lib/utils/helpers';
@@ -11,10 +11,7 @@
 </script>
 
 <article>
-	<a href="/" class="flex justify-start items-center gap-6 mb-8">
-		<Icon name="arrowLeft" />
-		<Typography as="span" variant="body4" bold>Go back</Typography>
-	</a>
+	<GoBackBtn />
 
 	<div
 		class="bg-lightBg2 dark:bg-darkBg2 p-6 mb-4 rounded-lg md:p-8 md:flex md:justify-between md:items-center"
