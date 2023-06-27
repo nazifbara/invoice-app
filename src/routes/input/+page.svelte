@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InputField from '$lib/components/InputField.svelte';
-	import Dropdown from '$lib/components/Dropdown.svelte';
+	import Select from '$lib/components/Select.svelte';
 
 	const options = [
 		{ value: '1', label: 'Net 1 Day' },
@@ -11,13 +11,13 @@
 </script>
 
 <div class="grid gap-10 p-10 justify-start">
-	<Dropdown label="Payment Terms" {options} />
+	<Select label="Payment Terms" {options} />
 	<InputField label="Street Address" />
 	<InputField type="date" label="Street Address" />
 </div>
 
 <div class="grid gap-3 p-10 justify-start bg-[#141625] dark">
-	<Dropdown label="Payment Terms" {options} />
+	<Select label="Payment Terms" {options} />
 	<InputField label="Street Address" />
 	<InputField type="date" label="Street Address" />
 </div>

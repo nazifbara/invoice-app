@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let variant: 'primary' | 'edit' | 'save' | 'danger' = 'primary';
+	export let type: 'button' | 'submit' = 'button';
 	export let disabled: boolean = false;
 	export let compact = false;
 
@@ -14,7 +15,7 @@
 	};
 
 	const getVariantClasses = () => {
-		const paddings = compact ? 'py-2 pl-2 pr-4' : 'px-6 py-4';
+		const paddings = compact ? 'py-2 pl-2 pr-4' : 'px-4 py-4 md:px-6';
 		const commons = [paddings, 'rounded-full', 'font-bold', 'transition-colors', 'duration-300'];
 
 		const variantClasses = variants[variant];
@@ -43,6 +44,6 @@
 	};
 </script>
 
-<button class={getVariantClasses()} {disabled} on:click={handleClick}>
+<button {type} class={getVariantClasses()} {disabled} on:click={handleClick}>
 	<slot />
 </button>
