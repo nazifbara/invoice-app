@@ -17,7 +17,7 @@
 	const locationClass =
 		'grid grid-cols-2 gap-6 [&>:last-child]:col-span-2 md:grid-cols-3 md:[&>:last-child]:col-span-1';
 
-	const items = [
+	let items = [
 		{
 			name: 'Banner Design',
 			quantity: 1,
@@ -31,6 +31,13 @@
 			total: 400
 		}
 	];
+
+	const removeItem = (index: number) => {
+		items.splice(index, 1);
+		items = items;
+	};
+
+	const addItem = () => (items = [...items, { name: '', quantity: 0, price: 0, total: 0 }]);
 </script>
 
 {#if formIsOpen}
@@ -129,11 +136,13 @@
 									name={`item-${i}-total`}
 									value={item.total.toString()}
 								/>
-								<button class="translate-y-3/4 place-self-center"><Icon name="delete" /></button>
+								<button on:click={() => removeItem(i)} class="translate-y-3/4 place-self-center"
+									><Icon name="delete" /></button
+								>
 							</div>
 						</div>
 					{/each}
-					<ItemBtn />
+					<ItemBtn on:click={addItem} />
 				</div>
 			</section>
 
