@@ -2,6 +2,7 @@
 	export let options: { value: string; label: string }[] = [];
 	export let label = '';
 	export let name = '';
+	export let value = options[0].value;
 </script>
 
 <label class="flex flex-col gap-3">
@@ -33,7 +34,9 @@
 	`}
 	>
 		<select
+			{...$$restProps}
 			{name}
+			bind:value
 			class={`
 			appearance-none
 			bg-white

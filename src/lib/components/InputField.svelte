@@ -3,30 +3,42 @@
 	export let name = '';
 	export let type = 'text';
 	export let disabled = false;
-	export let value = '';
+	export let value: string | number = '';
+	export let invalid = false;
+	export let errorMessage = '';
 
-	let commonClass = `
+	const handleInput = (e: any) => {
+		if (!e.target) return;
+		value = type.match(/^(number|range)$/) ? +e.target.value : e.target.value;
+	};
+
+	const commonClass = `
 		font-bold
 		py-4
 		outline-none
 	`;
 
-	let inputClass = `
+	$: inputClass = `
 		${commonClass}
 		px-5
 		bg-white
 		text-darkText
 		border
-		border-lightText2
+		${invalid ? 'border-danger' : 'border-lightText2 dark:border-[#252945]'}
 		rounded-[0.25rem]
 		focus:border-primary
 		dark:bg-darkBg2
-		dark:border-[#252945]
 		dark:text-white
 		caret-primary
 	`;
 
-	let disabledInputClass = `
+	$: labelClass = `
+	flex
+	justify-between
+	${invalid ? 'text-danger' : 'text-darkText2 dark:text-lightText2'}
+	`;
+
+	const disabledInputClass = `
 		${commonClass}
 		text-darkText2
 		dark:text-lightText2
@@ -36,9 +48,23 @@
 
 <label class="flex flex-col gap-3">
 	{#if label}
-		<span class="text-darkText2 dark:text-lightText2">{label}</span>
+		<span class={labelClass}>
+			<span>{label}</span>
+			{#if invalid && errorMessage}
+				<span>{errorMessage}</span>
+			{/if}
+		</span>
 	{/if}
-	<input {value} {disabled} {type} {name} class={disabled ? disabledInputClass : inputClass} />
+	<input
+		{...$$restProps}
+		{value}
+		{disabled}
+		{type}
+		{name}
+		aria-invalid={invalid ? true : undefined}
+		on:input={handleInput}
+		class={disabled ? disabledInputClass : inputClass}
+	/>
 </label>
 
 <style>

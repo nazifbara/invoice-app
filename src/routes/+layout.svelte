@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
+	import { superForm } from 'sveltekit-superforms/client';
+	import type { PageData } from './$types';
 	import '../app.css';
 	import { theme } from '$lib/stores';
-
 	import AppBar from '$lib/components/AppBar.svelte';
 	import InvoiceForm from '$lib/components/InvoiceForm.svelte';
+
+	export let data: PageData;
+
+	const sForm = superForm(data.form, { dataType: 'json' });
 </script>
 
 <div class={`${$theme} font-base font-medium text-xs`}>
-	<InvoiceForm />
+	<InvoiceForm superForm={sForm} />
 	<div class="bg-lightBg dark:bg-darkBg min-h-screen">
 		<AppBar />
 		<main
@@ -19,10 +24,6 @@
 </div>
 
 <style>
-	:global(.dark *) {
-		color: white;
-	}
-
 	:global(th) {
 		font-weight: normal;
 	}
