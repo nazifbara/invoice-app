@@ -4,6 +4,7 @@
 	import Typography from '$lib/components/Typography.svelte';
 	import InvoiceBtn from '$lib/components/InvoiceBtn.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import { invoices } from '$lib/utils/stores';
 </script>
 
 <div class="grid gap-8 md:gap-14">
@@ -26,5 +27,5 @@
 			<InvoiceBtn />
 		</div>
 	</div>
-	<InvoiceList {data} />
+	<InvoiceList invoices={$invoices} />
 </div>

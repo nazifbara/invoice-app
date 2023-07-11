@@ -1,13 +1,18 @@
 <script lang="ts">
-	import data from '$lib/data.json';
 	import { page } from '$app/stores';
 	import Typography from '$lib/components/Typography.svelte';
 	import GoBackBtn from '$lib/components/GoBack.svelte';
 	import Badge from '$lib/components/Badge.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { formatDate, formatPrice } from '$lib/utils/helpers';
+	import {
+		formatDate,
+		formatPrice,
+		getInvoiceItemTotal,
+		getInvoiceTotal
+	} from '$lib/utils/helpers';
+	import { invoices } from '$lib/utils/stores';
 
-	let invoice = data.find((invoice) => invoice.id === $page.params.id);
+	let invoice = $invoices.find((invoice) => invoice.id === $page.params.id);
 </script>
 
 <article>
@@ -123,7 +128,9 @@
 											{item.quantity} x {formatPrice(item.price)}
 										</Typography>
 									</div>
-									<Typography as="h3" variant="h4">{formatPrice(item.total)}</Typography>
+									<Typography as="h3" variant="h4"
+										>{formatPrice(getInvoiceItemTotal(item))}</Typography
+									>
 								</li>
 							{/each}
 						</ul>
@@ -139,14 +146,20 @@
 									<Typography as="td" variant="body4" bold>{item.name}</Typography>
 									<Typography as="td" variant="body2" bold>{item.quantity}</Typography>
 									<Typography as="td" variant="body2" bold>{formatPrice(item.price)}</Typography>
-									<Typography as="td" variant="body4" bold>{formatPrice(item.total)}</Typography>
+									<Typography as="td" variant="body4" bold
+										>{formatPrice(getInvoiceItemTotal(item))}</Typography
+									>
 								</tr>
 							{/each}
 						</table>
 					</div>
-					<p class="dark bg-draft dark:bg-darkText flex items-center justify-between p-6 md:p-8">
+					<p
+						class="dark text-white bg-draft dark:bg-darkText flex items-center justify-between p-6 md:p-8"
+					>
 						<Typography as="span" variant="body1">Amount Due</Typography>
-						<span class="text-xl md:text-2xl font-bold">{formatPrice(invoice.total)}</span>
+						<span class="text-xl md:text-2xl font-bold"
+							>{formatPrice(getInvoiceTotal(invoice))}</span
+						>
 					</p>
 				</div>
 			</div>

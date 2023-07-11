@@ -2,7 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
-	import { invoiceForm } from '$lib/stores';
+	import { invoiceForm } from '$lib/utils/stores';
 	import type { invoiceSchema } from '$lib/utils/zod';
 	import GoBack from '$lib/components/GoBack.svelte';
 	import Typography from './Typography.svelte';
@@ -12,6 +12,7 @@
 	import ItemBtn from './ItemBtn.svelte';
 	import Button from './Button.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
+	import { getInvoiceItemTotal } from '$lib/utils/helpers';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 
@@ -231,7 +232,12 @@
 									name={`item-${i}-price`}
 									bind:value={$form.items[i].price}
 								/>
-								<InputField disabled label="Total" name={`item-${i}-total`} value="500" />
+								<InputField
+									disabled
+									label="Total"
+									name={`item-${i}-total`}
+									value={getInvoiceItemTotal($form.items[i])}
+								/>
 								<button
 									type="button"
 									on:click={() => removeItem(i)}

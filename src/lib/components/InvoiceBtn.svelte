@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { invoiceForm } from '$lib/stores';
+	import { invoiceForm } from '$lib/utils/stores';
 
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';

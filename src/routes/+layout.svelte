@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import type { PageData } from './$types';
 	import '../app.css';
-	import { theme } from '$lib/stores';
+	import { theme } from '$lib/utils/stores';
 	import AppBar from '$lib/components/AppBar.svelte';
 	import InvoiceForm from '$lib/components/InvoiceForm.svelte';
 

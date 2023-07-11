@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from './Icon.svelte';
 
-	import { theme } from '$lib/stores';
+	import { theme } from '$lib/utils/stores';
 </script>
 
 <button class="p-1" on:click={theme.toggle}>

@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type { Invoice } from '$lib/utils/types';
-	import { formatPrice, formatDate } from '$lib/utils/helpers';
+	import { formatPrice, formatDate, getInvoiceTotal } from '$lib/utils/helpers';
 
 	import Badge from '$lib/components/Badge.svelte';
 	import Icon from './Icon.svelte';
 	import Typography from './Typography.svelte';
 
-	export let data: Invoice[] = [];
+	export let invoices: Invoice[] = [];
 </script>
 
 <ul class="grid gap-4">
-	{#each data as invoice}
+	{#each invoices as invoice}
 		<li>
 			<a
 				href="/invoice/{invoice.id}"
@@ -48,7 +48,7 @@
 				<span
 					class="col-start-1 row-start-3 self-center sm:col-start-4 sm:row-start-1 sm:justify-self-end"
 				>
-					<Typography as="span" variant="h3">{formatPrice(invoice.total)}</Typography>
+					<Typography as="span" variant="h3">{formatPrice(getInvoiceTotal(invoice))}</Typography>
 				</span>
 				<span class="row-span-2 sm:col-start-5 sm:row-span-1"><Badge type={invoice.status} /></span>
 				<span class="hidden sm:inline"><Icon name="arrowRight" /></span>

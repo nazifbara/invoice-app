@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Typography from '$lib/components/Typography.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import type { IconName } from '$lib/types';
+	import type { IconName } from '$lib/utils/types';
 
 	export let as: 'link' | 'button' = 'link';
 	export let href = '/';
