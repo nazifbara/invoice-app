@@ -20,8 +20,6 @@
 	const constraints = superForm.constraints;
 	const emptyMessage = "cont't be empty";
 
-	console.log($errors);
-
 	let enhance = superForm.enhance;
 	$: formIsOpen = $invoiceForm.opened;
 
@@ -30,12 +28,20 @@
 		'grid grid-cols-2 gap-6 [&>:last-child]:col-span-2 md:grid-cols-3 md:[&>:last-child]:col-span-1';
 
 	const removeItem = (index: number) => {
-		let items = [...$form.items.slice(0, index), ...$form.items.slice(index + 1)];
-		form.set({ ...$form, items });
+		form.update((values) => {
+			const items = [...values.items.slice(0, index), ...values.items.slice(index + 1)];
+			return { ...values, items };
+		});
 	};
 
 	const addItem = () =>
-		form.set({ ...$form, items: [...$form.items, { name: '', quantity: 0, price: 0 }] });
+		form.update((values) => {
+			const items = [...values.items, { name: '', quantity: 0, price: 0 }];
+			return { ...values, items };
+		});
+
+	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
+		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
 </script>
 
 {#if formIsOpen}
@@ -206,20 +212,20 @@
             `}
 							>
 								<InputField
-									invalid={Boolean($errors.items && $errors.items[i] && $errors.items[i].name)}
+									invalid={isItemInputValid(i, 'name')}
 									label="Item Name"
 									name={`item-${i}`}
 									bind:value={$form.items[i].name}
 								/>
 								<InputField
-									invalid={Boolean($errors.items && $errors.items[i] && $errors.items[i].quantity)}
+									invalid={isItemInputValid(i, 'quantity')}
 									label="Qty"
 									type="number"
 									name={`item-qty-${i}`}
 									bind:value={$form.items[i].quantity}
 								/>
 								<InputField
-									invalid={Boolean($errors.items && $errors.items[i] && $errors.items[i].price)}
+									invalid={isItemInputValid(i, 'price')}
 									label="Price"
 									type="number"
 									name={`item-${i}-price`}
