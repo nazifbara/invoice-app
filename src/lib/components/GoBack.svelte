@@ -24,7 +24,7 @@
 		<Typography {...content.typographyProps}>Go back</Typography>
 	</a>
 {:else}
-	<button on:click class={containerClass}>
+	<button on:click class={containerClass} type="button">
 		<Icon name={content.icon} />
 		<Typography {...content.typographyProps}>Go back</Typography>
 	</button>
