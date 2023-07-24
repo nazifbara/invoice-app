@@ -8,7 +8,8 @@
 		formatDate,
 		formatPrice,
 		getInvoiceItemTotal,
-		getInvoiceTotal
+		getInvoiceTotal,
+		getDueDate
 	} from '$lib/utils/helpers';
 	import { invoices } from '$lib/utils/stores';
 
@@ -48,7 +49,9 @@
 			>
 				<Button variant="edit">Edit</Button>
 				<Button variant="danger">Delete</Button>
-				<Button variant="primary">Mark as Paid</Button>
+				{#if invoice?.status === 'pending'}
+					<Button variant="primary">Mark as Paid</Button>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -86,7 +89,12 @@
 				<div class="mb-3">
 					<Typography as="h3" variant="body2">Payment Due</Typography>
 				</div>
-				<Typography as="p" variant="h3">{invoice && formatDate(invoice.paymentDue)}</Typography>
+				<Typography as="p" variant="h3"
+					>{invoice &&
+						formatDate(
+							getDueDate(new Date(invoice.invoiceDate), Number(invoice.paymentTerms))
+						)}</Typography
+				>
 			</div>
 
 			<div class="row-start-1 row-span-2 col-start-2">
