@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import type { Invoice, InvoiceFormData, InvoiceItem } from './types';
+import type { Invoice, InvoiceFormData, InvoiceItem, InvoiceStatus } from './types';
 import { browser } from '$app/environment';
 
 dayjs.extend(localizedFormat);
@@ -10,11 +10,15 @@ const dollarUSLocale = Intl.NumberFormat('en-US', {
 	currency: 'USD'
 });
 
-export const makeInvoice = (data: InvoiceFormData, totalInvoices: number): Invoice => ({
+export const makeInvoice = (
+	data: InvoiceFormData,
+	totalInvoices: number,
+	status: InvoiceStatus = 'pending'
+): Invoice => ({
 	...data,
 	createdAt: new Date().toUTCString(),
 	id: String(totalInvoices + 1),
-	status: 'pending'
+	status
 });
 
 export const formatPrice = (price: number) => dollarUSLocale.format(price);

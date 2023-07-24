@@ -21,10 +21,13 @@
 	let errors = superForm.errors;
 	const constraints = superForm.constraints;
 	const emptyMessage = "cant't be empty";
+	let saveAsDraft = false;
 
 	$: if ($posted && Object.keys($errors).length === 0) {
-		invoices.add(makeInvoice($form, $invoices.length));
+		invoices.add(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
 		invoiceForm.close();
+		saveAsDraft = false;
+		superForm.reset();
 	}
 
 	let enhance = superForm.enhance;
@@ -283,7 +286,9 @@
 				<div class="flex justify-between">
 					<Button type="button" variant="edit">Discard</Button>
 					<div class="flex gap-2">
-						<Button type="button" variant="save">Save as draft</Button>
+						<Button type="submit" variant="save" on:click={() => (saveAsDraft = true)}
+							>Save as draft</Button
+						>
 						<Button type="submit">Save & Send</Button>
 					</div>
 				</div>
