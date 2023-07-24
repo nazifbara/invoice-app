@@ -2,7 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
-	import { invoiceForm } from '$lib/utils/stores';
+	import { invoiceForm, invoices } from '$lib/utils/stores';
 	import type { invoiceSchema } from '$lib/utils/zod';
 	import GoBack from '$lib/components/GoBack.svelte';
 	import Typography from './Typography.svelte';
@@ -12,14 +12,20 @@
 	import ItemBtn from './ItemBtn.svelte';
 	import Button from './Button.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
-	import { getInvoiceItemTotal } from '$lib/utils/helpers';
+	import { getInvoiceItemTotal, makeInvoice } from '$lib/utils/helpers';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 
 	const form = superForm.form;
+	let posted = superForm.posted;
 	let errors = superForm.errors;
 	const constraints = superForm.constraints;
-	const emptyMessage = "cont't be empty";
+	const emptyMessage = "cant't be empty";
+
+	$: if ($posted && Object.keys($errors).length === 0) {
+		invoices.add(makeInvoice($form, $invoices.length));
+		invoiceForm.close();
+	}
 
 	let enhance = superForm.enhance;
 	$: formIsOpen = $invoiceForm.opened;
@@ -83,34 +89,34 @@
 					<Typography as="h3" variant="body1" bold>Bill From</Typography>
 
 					<InputField
-						invalid={Boolean($errors.senderStreet)}
-						errorMessage={$errors.senderStreet ? emptyMessage : ''}
+						invalid={Boolean($errors.senderAddress?.street)}
+						errorMessage={$errors.senderAddress?.street ? emptyMessage : ''}
 						label="Street Address"
 						name="senderStreet"
-						bind:value={$form.senderStreet}
-						{...$constraints.senderStreet}
+						bind:value={$form.senderAddress.street}
+						{...$constraints.senderAddress?.street}
 					/>
 					<div class={locationClass}>
 						<InputField
-							invalid={Boolean($errors.senderCity)}
+							invalid={Boolean($errors.senderAddress?.city)}
 							label="City"
 							name="senderCity"
-							bind:value={$form.senderCity}
-							{...$constraints.senderStreet}
+							bind:value={$form.senderAddress.city}
+							{...$constraints.senderAddress?.city}
 						/>
 						<InputField
-							invalid={Boolean($errors.senderPostCode)}
+							invalid={Boolean($errors.senderAddress?.postCode)}
 							label="Post Code"
 							name="senderPostCode"
-							bind:value={$form.senderPostCode}
-							{...$constraints.senderPostCode}
+							bind:value={$form.senderAddress.postCode}
+							{...$constraints.senderAddress?.postCode}
 						/>
 						<InputField
-							invalid={Boolean($errors.senderCountry)}
+							invalid={Boolean($errors.senderAddress?.country)}
 							label="Country"
 							name="senderCountry"
-							bind:value={$form.senderCountry}
-							{...$constraints.senderCountry}
+							bind:value={$form.senderAddress.country}
+							{...$constraints.senderAddress?.country}
 						/>
 					</div>
 				</div>
@@ -134,34 +140,34 @@
 						{...$constraints.clientEmail}
 					/>
 					<InputField
-						invalid={Boolean($errors.clientStreet)}
-						errorMessage={$errors.clientStreet ? emptyMessage : ''}
+						invalid={Boolean($errors.clientAddress?.street)}
+						errorMessage={$errors.clientAddress?.street ? emptyMessage : ''}
 						label="Street Address"
 						name="clientStreet"
-						bind:value={$form.clientStreet}
-						{...$constraints.clientStreet}
+						bind:value={$form.clientAddress.street}
+						{...$constraints.clientAddress?.street}
 					/>
 					<div class={locationClass}>
 						<InputField
-							invalid={Boolean($errors.clientCity)}
+							invalid={Boolean($errors.clientAddress?.city)}
 							label="City"
 							name="clientCity"
-							bind:value={$form.clientCity}
-							{...$constraints.clientCity}
+							bind:value={$form.clientAddress.city}
+							{...$constraints.clientAddress?.city}
 						/>
 						<InputField
-							invalid={Boolean($errors.clientPostCode)}
+							invalid={Boolean($errors.clientAddress?.postCode)}
 							label="Post Code"
 							name="clientPostCode"
-							bind:value={$form.clientPostCode}
-							{...$constraints.clientPostCode}
+							bind:value={$form.clientAddress.postCode}
+							{...$constraints.clientAddress?.postCode}
 						/>
 						<InputField
-							invalid={Boolean($errors.clientCountry)}
+							invalid={Boolean($errors.clientAddress?.country)}
 							label="Country"
 							name="clientCountry"
-							bind:value={$form.clientCountry}
-							{...$constraints.clientCountry}
+							bind:value={$form.clientAddress.country}
+							{...$constraints.clientAddress?.country}
 						/>
 					</div>
 					<div class="grid gap-6 pt-4 md:grid-cols-2 md:pt-6">
@@ -186,11 +192,11 @@
 						/>
 					</div>
 					<InputField
-						invalid={Boolean($errors.projectDescription)}
+						invalid={Boolean($errors.description)}
 						label="Project Description"
 						name="description"
-						bind:value={$form.projectDescription}
-						{...$constraints.projectDescription}
+						bind:value={$form.description}
+						{...$constraints.description}
 					/>
 				</div>
 			</section>

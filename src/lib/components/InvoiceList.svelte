@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Invoice } from '$lib/utils/types';
-	import { formatPrice, formatDate, getInvoiceTotal } from '$lib/utils/helpers';
+	import { formatPrice, formatDate, getInvoiceTotal, getDueDate } from '$lib/utils/helpers';
 
 	import Badge from '$lib/components/Badge.svelte';
 	import Icon from './Icon.svelte';
@@ -10,7 +10,7 @@
 </script>
 
 <ul class="grid gap-4">
-	{#each invoices as invoice}
+	{#each invoices as invoice (invoice.id)}
 		<li>
 			<a
 				href="/invoice/{invoice.id}"
@@ -40,7 +40,11 @@
 					</Typography>
 				</span>
 				<span class="self-center sm:col-start-2">
-					<Typography as="span" variant="body2">Due {formatDate(invoice.paymentDue)}</Typography>
+					<Typography as="span" variant="body2">
+						Due {formatDate(
+							getDueDate(new Date(invoice.invoiceDate), Number(invoice.paymentTerms))
+						)}
+					</Typography>
 				</span>
 				<span class="col-start-2 row-start-1 mb-4 sm:mb-0 sm:col-start-3">
 					<Typography as="span" variant="body1">{invoice.clientName}</Typography>

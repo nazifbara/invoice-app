@@ -1,15 +1,15 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/environment';
 import type { InvoiceFormState, InvoiceFormType, Invoice } from './types';
 import { getItemFromLS, setItemToLS } from './helpers';
+import { browser } from '$app/environment';
 
 const DATA: Invoice[] = [
 	{
 		id: 'RT3080',
 		createdAt: '2021-08-18',
-		paymentDue: '2021-08-19',
+		invoiceDate: '2021-08-18',
 		description: 'Re-branding',
-		paymentTerms: 1,
+		paymentTerms: '1',
 		clientName: 'Jensen Huang',
 		clientEmail: 'jensenh@mail.com',
 		status: 'paid',
@@ -36,9 +36,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'XM9141',
 		createdAt: '2021-08-21',
-		paymentDue: '2021-09-20',
+		invoiceDate: '2021-08-21',
 		description: 'Graphic Design',
-		paymentTerms: 30,
+		paymentTerms: '30',
 		clientName: 'Alex Grim',
 		clientEmail: 'alexgrim@mail.com',
 		status: 'pending',
@@ -70,9 +70,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'RG0314',
 		createdAt: '2021-09-24',
-		paymentDue: '2021-10-01',
+		invoiceDate: '2021-09-24',
 		description: 'Website Redesign',
-		paymentTerms: 7,
+		paymentTerms: '7',
 		clientName: 'John Morrison',
 		clientEmail: 'jm@myco.com',
 		status: 'paid',
@@ -99,9 +99,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'RT2080',
 		createdAt: '2021-10-11',
-		paymentDue: '2021-10-12',
+		invoiceDate: '2021-10-11',
 		description: 'Logo Concept',
-		paymentTerms: 1,
+		paymentTerms: '1',
 		clientName: 'Alysa Werner',
 		clientEmail: 'alysa@email.co.uk',
 		status: 'pending',
@@ -128,9 +128,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'AA1449',
 		createdAt: '2021-10-7',
-		paymentDue: '2021-10-14',
+		invoiceDate: '2021-10-7',
 		description: 'Re-branding',
-		paymentTerms: 7,
+		paymentTerms: '7',
 		clientName: 'Mellisa Clarke',
 		clientEmail: 'mellisa.clarke@example.com',
 		status: 'pending',
@@ -162,9 +162,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'TY9141',
 		createdAt: '2021-10-01',
-		paymentDue: '2021-10-31',
+		invoiceDate: '2021-10-01',
 		description: 'Landing Page Design',
-		paymentTerms: 30,
+		paymentTerms: '30',
 		clientName: 'Thomas Wayne',
 		clientEmail: 'thomas@dc.com',
 		status: 'pending',
@@ -191,9 +191,9 @@ const DATA: Invoice[] = [
 	{
 		id: 'FV2353',
 		createdAt: '2021-11-05',
-		paymentDue: '2021-11-12',
+		invoiceDate: '2021-11-05',
 		description: 'Logo Re-design',
-		paymentTerms: 7,
+		paymentTerms: '7',
 		clientName: 'Anita Wainwright',
 		clientEmail: '',
 		status: 'draft',
@@ -224,8 +224,10 @@ const getInitialTheme = () => {
 	if (storedTheme) {
 		return storedTheme;
 	}
-	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-		return 'dark';
+	if (browser) {
+		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			return 'dark';
+		}
 	}
 	return 'light';
 };
@@ -271,6 +273,12 @@ export const invoices = (() => {
 	const { subscribe, update } = writable<Invoice[]>(initialState);
 
 	return {
-		subscribe
+		subscribe,
+		add: (invoice: Invoice) =>
+			update((value) => {
+				const newInvoices = [invoice, ...value];
+				setItemToLS('invoices', JSON.stringify(newInvoices));
+				return newInvoices;
+			})
 	};
 })();

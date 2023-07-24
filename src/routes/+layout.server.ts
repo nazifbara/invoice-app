@@ -5,20 +5,24 @@ import { invoiceSchema } from '$lib/utils/zod';
 export const load = async () => {
 	const form = await superValidate(
 		{
-			senderStreet: 'Cotonou, Aibatin',
-			senderCity: 'Cotonou',
-			senderPostCode: '229',
-			senderCountry: 'Benin',
+			senderAddress: {
+				street: 'Cotonou, Aibatin',
+				city: 'Cotonou',
+				postCode: '229',
+				country: 'Benin'
+			},
 			clientName: 'Nazif Barassounon',
 			clientEmail: 'nazibarassounon@gmail.com',
-			clientStreet: 'Cotonou, Aibatin',
-			clientCity: 'Cotonou',
-			clientPostCode: '229',
-			clientCountry: 'Benin',
+			clientAddress: {
+				street: 'Cotonou, Aibatin',
+				city: 'Cotonou',
+				postCode: '229',
+				country: 'Benin'
+			},
 			invoiceDate: '2023-07-14',
 			paymentTerms: '1',
-			projectDescription: 'Hello project!',
-			items: [{ name: 'allah', quantity: 3, price: 300 }]
+			description: 'Hello project!',
+			items: [{ name: 'App mockup', quantity: 3, price: 300 }]
 		},
 		invoiceSchema
 	);
