@@ -22,6 +22,10 @@
 	const constraints = superForm.constraints;
 	const emptyMessage = "cant't be empty";
 	let saveAsDraft = false;
+	let enhance = superForm.enhance;
+	const formGroupClass = 'grid gap-6 [&>h3]:!text-primary';
+	const locationClass =
+		'grid grid-cols-2 gap-6 [&>:last-child]:col-span-2 md:grid-cols-3 md:[&>:last-child]:col-span-1';
 
 	$: if ($posted && Object.keys($errors).length === 0) {
 		invoices.add(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
@@ -30,12 +34,10 @@
 		superForm.reset();
 	}
 
-	let enhance = superForm.enhance;
 	$: formIsOpen = $invoiceModal.opened;
 
-	const formGroupClass = 'grid gap-6 [&>h3]:!text-primary';
-	const locationClass =
-		'grid grid-cols-2 gap-6 [&>:last-child]:col-span-2 md:grid-cols-3 md:[&>:last-child]:col-span-1';
+	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
+		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
 
 	const removeItem = (index: number) => {
 		form.update((values) => {
@@ -50,8 +52,10 @@
 			return { ...values, items };
 		});
 
-	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
-		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
+	const discard = () => {
+		superForm.reset();
+		invoiceModal.close();
+	};
 </script>
 
 {#if formIsOpen}
@@ -284,7 +288,7 @@
         `}
 			>
 				<div class="flex justify-between">
-					<Button type="button" variant="edit">Discard</Button>
+					<Button type="button" variant="edit" on:click={discard}>Discard</Button>
 					<div class="flex gap-2">
 						<Button type="submit" variant="save" on:click={() => (saveAsDraft = true)}
 							>Save as draft</Button
