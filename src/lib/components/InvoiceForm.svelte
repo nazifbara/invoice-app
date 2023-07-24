@@ -2,7 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
-	import { invoiceForm, invoices } from '$lib/utils/stores';
+	import { invoiceModal, invoices } from '$lib/utils/stores';
 	import type { invoiceSchema } from '$lib/utils/zod';
 	import GoBack from '$lib/components/GoBack.svelte';
 	import Typography from './Typography.svelte';
@@ -25,13 +25,13 @@
 
 	$: if ($posted && Object.keys($errors).length === 0) {
 		invoices.add(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
-		invoiceForm.close();
+		invoiceModal.close();
 		saveAsDraft = false;
 		superForm.reset();
 	}
 
 	let enhance = superForm.enhance;
-	$: formIsOpen = $invoiceForm.opened;
+	$: formIsOpen = $invoiceModal.opened;
 
 	const formGroupClass = 'grid gap-6 [&>h3]:!text-primary';
 	const locationClass =
@@ -58,7 +58,7 @@
 	<button
 		transition:fade
 		class="fixed inset-0 bg-black opacity-50 z-10"
-		on:click={invoiceForm.close}
+		on:click={invoiceModal.close}
 	/>
 	<div
 		transition:fly={{ x: -300 }}
@@ -84,7 +84,7 @@
 	>
 		<form class="px-6 py-8 md:px-14 [&>h2]:mb-6 relative" method="POST" use:enhance>
 			<SuperDebug data={$form} />
-			<span class="md:hidden"><GoBack as="button" on:click={invoiceForm.close} /></span>
+			<span class="md:hidden"><GoBack as="button" on:click={invoiceModal.close} /></span>
 			<Typography as="h2" variant="h2">New Invoice</Typography>
 
 			<section class="grid gap-10 mb-14">

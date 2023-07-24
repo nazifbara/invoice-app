@@ -246,7 +246,7 @@ export const theme = (() => {
 	};
 })();
 
-export const invoiceForm = (() => {
+export const invoiceModal = (() => {
 	const initialState: InvoiceFormState = { opened: false, type: 'new' };
 	const { subscribe, update } = writable<InvoiceFormState>(initialState);
 
