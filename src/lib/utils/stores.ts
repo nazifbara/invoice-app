@@ -1,5 +1,11 @@
 import { writable } from 'svelte/store';
-import type { InvoiceFormState, InvoiceFormType, Invoice } from './types';
+import type {
+	InvoiceFormState,
+	InvoiceFormType,
+	Invoice,
+	InvoiceFormData,
+	InvoiceStatus
+} from './types';
 import { getItemFromLS, setItemToLS } from './helpers';
 import { browser } from '$app/environment';
 
@@ -266,19 +272,37 @@ const getInitialInvoices = () => {
 };
 
 export const invoices = (() => {
-	const initialState: Invoice[] = getInitialInvoices() ?? DATA;
+	const state: Invoice[] = getInitialInvoices() ?? DATA;
 
-	setItemToLS('invoices', JSON.stringify(initialState));
+	setItemToLS('invoices', JSON.stringify(state));
 
-	const { subscribe, update } = writable<Invoice[]>(initialState);
+	const { subscribe, update } = writable<Invoice[]>(state);
 
 	return {
 		subscribe,
-		add: (invoice: Invoice) =>
+		save: (invoice: Invoice) =>
 			update((value) => {
 				const newInvoices = [invoice, ...value];
 				setItemToLS('invoices', JSON.stringify(newInvoices));
 				return newInvoices;
-			})
+			}),
+		edit: (id: string, formData: InvoiceFormData) =>
+			update((invoices) => {
+				const idx = state.findIndex((invoice) => invoice.id === id);
+
+				const newInvoices = [
+					...invoices.slice(0, idx),
+					{
+						...formData,
+						id: invoices[idx].id,
+						createdAt: invoices[idx].createdAt,
+						status: 'pending' as InvoiceStatus
+					},
+					...invoices.slice(idx + 1)
+				];
+				setItemToLS('invoices', JSON.stringify(newInvoices));
+				return newInvoices;
+			}),
+		getById: (id: string) => state.find((invoice) => invoice.id === id)
 	};
 })();

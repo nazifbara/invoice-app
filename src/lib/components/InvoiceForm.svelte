@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
+	import { page } from '$app/stores';
 	import { invoiceModal, invoices } from '$lib/utils/stores';
 	import type { invoiceSchema } from '$lib/utils/zod';
 	import GoBack from '$lib/components/GoBack.svelte';
@@ -16,6 +18,8 @@
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 
+	$: params = $page.params;
+
 	const form = superForm.form;
 	let posted = superForm.posted;
 	let errors = superForm.errors;
@@ -28,8 +32,13 @@
 		'grid grid-cols-2 gap-6 [&>:last-child]:col-span-2 md:grid-cols-3 md:[&>:last-child]:col-span-1';
 
 	$: if ($posted && Object.keys($errors).length === 0) {
-		invoices.add(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
-		invoiceModal.close();
+		if (params.id) {
+			invoices.edit(params.id, $form);
+		} else {
+			invoices.save(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
+		}
+
+		cancel();
 		saveAsDraft = false;
 		superForm.reset();
 	}
@@ -38,6 +47,13 @@
 
 	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
 		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
+
+	$: if (params.id) {
+		const invoice = invoices.getById(params.id);
+		if (invoice) {
+			form.set(invoice);
+		}
+	}
 
 	const removeItem = (index: number) => {
 		form.update((values) => {
@@ -54,8 +70,10 @@
 
 	const discard = () => {
 		superForm.reset();
-		invoiceModal.close();
+		cancel();
 	};
+
+	const cancel = () => invoiceModal.close();
 </script>
 
 {#if formIsOpen}
@@ -87,9 +105,12 @@
   `}
 	>
 		<form class="px-6 py-8 md:px-14 [&>h2]:mb-6 relative" method="POST" use:enhance>
-			<SuperDebug data={$form} />
 			<span class="md:hidden"><GoBack as="button" on:click={invoiceModal.close} /></span>
-			<Typography as="h2" variant="h2">New Invoice</Typography>
+			{#if params.id}
+				<Typography as="h2" variant="h2">Edit #{params.id}</Typography>
+			{:else}
+				<Typography as="h2" variant="h2">New Invoice</Typography>
+			{/if}
 
 			<section class="grid gap-10 mb-14">
 				<div class={formGroupClass}>
@@ -287,15 +308,22 @@
           md:p-0
         `}
 			>
-				<div class="flex justify-between">
-					<Button type="button" variant="edit" on:click={discard}>Discard</Button>
-					<div class="flex gap-2">
-						<Button type="submit" variant="save" on:click={() => (saveAsDraft = true)}
-							>Save as draft</Button
-						>
-						<Button type="submit">Save & Send</Button>
+				{#if params.id}
+					<div class="flex gap-2 justify-end">
+						<Button type="button" variant="edit" on:click={cancel}>Cancel</Button>
+						<Button type="submit">Save Change</Button>
 					</div>
-				</div>
+				{:else}
+					<div class="flex justify-between">
+						<Button type="button" variant="edit" on:click={discard}>Discard</Button>
+						<div class="flex gap-2">
+							<Button type="submit" variant="save" on:click={() => (saveAsDraft = true)}
+								>Save as draft</Button
+							>
+							<Button type="submit">Save & Send</Button>
+						</div>
+					</div>
+				{/if}
 			</div>
 		</form>
 	</div>

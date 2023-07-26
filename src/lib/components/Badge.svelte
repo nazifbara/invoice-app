@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let type: string = 'pending';
-	let color = {
+	$: color = {
 		paid: 'text-success bg-success2 before:bg-success',
 		pending: 'text-warning bg-warning2 before:bg-warning',
 		draft:

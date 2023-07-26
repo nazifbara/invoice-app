@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { invoiceModal } from '$lib/utils/stores';
 	import Typography from '$lib/components/Typography.svelte';
 	import GoBackBtn from '$lib/components/GoBack.svelte';
 	import Badge from '$lib/components/Badge.svelte';
@@ -13,7 +14,7 @@
 	} from '$lib/utils/helpers';
 	import { invoices } from '$lib/utils/stores';
 
-	let invoice = $invoices.find((invoice) => invoice.id === $page.params.id);
+	$: invoice = $invoices.find((invoice) => invoice.id === $page.params.id);
 </script>
 
 <article>
@@ -47,7 +48,7 @@
           mx-auto
         `}
 			>
-				<Button variant="edit">Edit</Button>
+				<Button variant="edit" on:click={() => invoiceModal.open('edit')}>Edit</Button>
 				<Button variant="danger">Delete</Button>
 				{#if invoice?.status === 'pending'}
 					<Button variant="primary">Mark as Paid</Button>
