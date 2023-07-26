@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
@@ -14,7 +13,7 @@
 	import ItemBtn from './ItemBtn.svelte';
 	import Button from './Button.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
-	import { getInvoiceItemTotal, makeInvoice } from '$lib/utils/helpers';
+	import { getInvoiceItemTotal } from '$lib/utils/helpers';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 
@@ -35,7 +34,7 @@
 		if (params.id) {
 			invoices.edit(params.id, $form);
 		} else {
-			invoices.save(makeInvoice($form, $invoices.length, saveAsDraft ? 'draft' : 'pending'));
+			invoices.save($form, saveAsDraft);
 		}
 
 		cancel();

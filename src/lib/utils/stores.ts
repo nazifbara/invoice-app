@@ -6,7 +6,7 @@ import type {
 	InvoiceFormData,
 	InvoiceStatus
 } from './types';
-import { getItemFromLS, setItemToLS } from './helpers';
+import { getItemFromLS, setItemToLS, makeInvoice } from './helpers';
 import { browser } from '$app/environment';
 
 const DATA: Invoice[] = [
@@ -280,9 +280,9 @@ export const invoices = (() => {
 
 	return {
 		subscribe,
-		save: (invoice: Invoice) =>
-			update((value) => {
-				const newInvoices = [invoice, ...value];
+		save: (formData: InvoiceFormData, asDraft = false) =>
+			update((invoices) => {
+				const newInvoices = [makeInvoice(formData, invoices.length, asDraft ? 'draft' : 'pending')];
 				setItemToLS('invoices', JSON.stringify(newInvoices));
 				return newInvoices;
 			}),
