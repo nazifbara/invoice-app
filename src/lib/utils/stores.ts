@@ -282,13 +282,16 @@ export const invoices = (() => {
 		subscribe,
 		save: (formData: InvoiceFormData, asDraft = false) =>
 			update((invoices) => {
-				const newInvoices = [makeInvoice(formData, invoices.length, asDraft ? 'draft' : 'pending')];
+				const newInvoices = [
+					makeInvoice(formData, invoices.length, asDraft ? 'draft' : 'pending'),
+					...invoices
+				];
 				setItemToLS('invoices', JSON.stringify(newInvoices));
 				return newInvoices;
 			}),
 		edit: (id: string, formData: InvoiceFormData) =>
 			update((invoices) => {
-				const idx = state.findIndex((invoice) => invoice.id === id);
+				const idx = invoices.findIndex((invoice) => invoice.id === id);
 
 				const newInvoices = [
 					...invoices.slice(0, idx),

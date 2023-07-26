@@ -24,7 +24,6 @@
 	let errors = superForm.errors;
 	const constraints = superForm.constraints;
 	const emptyMessage = "cant't be empty";
-	let saveAsDraft = false;
 	let enhance = superForm.enhance;
 	const formGroupClass = 'grid gap-6 [&>h3]:!text-primary';
 	const locationClass =
@@ -34,11 +33,12 @@
 		if (params.id) {
 			invoices.edit(params.id, $form);
 		} else {
-			invoices.save($form, saveAsDraft);
+			invoices.save($form);
 		}
 
+		console.log('hi');
+
 		cancel();
-		saveAsDraft = false;
 		superForm.reset();
 	}
 
@@ -316,8 +316,14 @@
 					<div class="flex justify-between">
 						<Button type="button" variant="edit" on:click={discard}>Discard</Button>
 						<div class="flex gap-2">
-							<Button type="submit" variant="save" on:click={() => (saveAsDraft = true)}
-								>Save as draft</Button
+							<Button
+								type="button"
+								variant="save"
+								on:click={() => {
+									invoices.save($form, true);
+									cancel();
+									superForm.reset();
+								}}>Save as draft</Button
 							>
 							<Button type="submit">Save & Send</Button>
 						</div>
