@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import type { Action } from 'svelte/action';
 
 	export let variant: 'primary' | 'edit' | 'save' | 'danger' = 'primary';
 	export let type: 'button' | 'submit' = 'button';
 	export let disabled: boolean = false;
 	export let compact = false;
+	export let action: Action = () => {};
 
 	const dispatch = createEventDispatcher();
 
@@ -44,6 +46,6 @@
 	};
 </script>
 
-<button {type} class={getVariantClasses()} {disabled} on:click={handleClick}>
+<button use:action {type} class={getVariantClasses()} {disabled} on:click={handleClick}>
 	<slot />
 </button>

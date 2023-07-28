@@ -289,6 +289,13 @@ export const invoices = (() => {
 				setItemToLS('invoices', JSON.stringify(newInvoices));
 				return newInvoices;
 			}),
+		delete: (id: string) =>
+			update((invoices) => {
+				const idx = invoices.findIndex((invoice) => invoice.id === id);
+				invoices.splice(idx, 1);
+				setItemToLS('invoices', JSON.stringify(invoices));
+				return invoices;
+			}),
 		edit: (id: string, formData: InvoiceFormData) =>
 			update((invoices) =>
 				updateInvoice(id, invoices, (currentInvoice) => ({

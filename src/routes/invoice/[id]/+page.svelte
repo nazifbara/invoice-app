@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { fade, fly } from 'svelte/transition';
+	import { createDialog } from '@melt-ui/svelte';
+
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { invoiceModal } from '$lib/utils/stores';
 	import Typography from '$lib/components/Typography.svelte';
 	import GoBackBtn from '$lib/components/GoBack.svelte';
@@ -14,10 +18,39 @@
 	} from '$lib/utils/helpers';
 	import { invoices } from '$lib/utils/stores';
 
+	const { trigger, overlay, content, title, description, close, open } = createDialog({
+		role: 'alertdialog'
+	});
+
 	$: invoice = $invoices.find((invoice) => invoice.id === $page.params.id);
+
+	const deleteInvoice = () => {
+		invoices.delete(invoice.id);
+		goto('/');
+	};
 </script>
 
 {#if invoice}
+	{#if $open}
+		<div transition:fade melt={$overlay} class="fixed inset-0 z-40 bg-black/50" />
+		<div
+			transition:fly={{ y: -200 }}
+			class="fixed grid gap-4 left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
+						max-w-[480px] translate-x-[-50%] translate-y-[-50%] rounded-lg bg-lightBg dark:bg-darkBg2
+						p-12 shadow-lg"
+			melt={$content}
+		>
+			<Typography as="h2" variant="h1" {...$title} action={title}>Confirm Deletion</Typography>
+			<Typography as="p" variant="body2" {...$description} action={description}>
+				Are you sure you want to delete invoice #{invoice.id}? This action cannot be undone.
+			</Typography>
+			<div class="flex justify-end gap-2">
+				<Button variant="edit" {...$close} action={close}>Cancel</Button>
+				<Button variant="danger" on:click={deleteInvoice}>Delete</Button>
+			</div>
+		</div>
+	{/if}
+
 	<article>
 		<GoBackBtn />
 
@@ -50,7 +83,7 @@
         `}
 				>
 					<Button variant="edit" on:click={() => invoiceModal.open('edit')}>Edit</Button>
-					<Button variant="danger">Delete</Button>
+					<Button variant="danger" {...$trigger} action={trigger}>Delete</Button>
 					{#if invoice.status === 'pending'}
 						<Button variant="primary" on:click={() => invoices.markAsPaid(invoice.id)}
 							>Mark as Paid</Button
