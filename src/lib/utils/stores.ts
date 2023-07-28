@@ -6,7 +6,13 @@ import type {
 	InvoiceFormData,
 	InvoiceStatus
 } from './types';
-import { getItemFromLS, setItemToLS, makeInvoice, updateInvoice } from './helpers';
+import {
+	getItemFromLS,
+	setItemToLS,
+	makeInvoice,
+	updateInvoice,
+	findInvoiceIndex
+} from './helpers';
 import { browser } from '$app/environment';
 
 const DATA: Invoice[] = [
@@ -291,8 +297,7 @@ export const invoices = (() => {
 			}),
 		delete: (id: string) =>
 			update((invoices) => {
-				const idx = invoices.findIndex((invoice) => invoice.id === id);
-				invoices.splice(idx, 1);
+				invoices.splice(findInvoiceIndex(id, invoices), 1);
 				setItemToLS('invoices', JSON.stringify(invoices));
 				return invoices;
 			}),
