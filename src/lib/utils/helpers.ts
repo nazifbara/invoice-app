@@ -21,6 +21,18 @@ export const makeInvoice = (
 	status
 });
 
+export const updateInvoice = (
+	id: string,
+	invoices: Invoice[],
+	f: (currentData: Invoice) => Invoice
+) => {
+	const idx = invoices.findIndex((invoice) => invoice.id === id);
+	const newData = f(invoices[idx]);
+	const newInvoices = [...invoices.slice(0, idx), newData, ...invoices.slice(idx + 1)];
+	setItemToLS('invoices', JSON.stringify(newInvoices));
+	return newInvoices;
+};
+
 export const formatPrice = (price: number) => dollarUSLocale.format(price);
 
 export const formatDate = (date: string) => dayjs(date).format('ll');

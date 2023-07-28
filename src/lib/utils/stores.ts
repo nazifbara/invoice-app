@@ -6,7 +6,7 @@ import type {
 	InvoiceFormData,
 	InvoiceStatus
 } from './types';
-import { getItemFromLS, setItemToLS, makeInvoice } from './helpers';
+import { getItemFromLS, setItemToLS, makeInvoice, updateInvoice } from './helpers';
 import { browser } from '$app/environment';
 
 const DATA: Invoice[] = [
@@ -290,22 +290,21 @@ export const invoices = (() => {
 				return newInvoices;
 			}),
 		edit: (id: string, formData: InvoiceFormData) =>
-			update((invoices) => {
-				const idx = invoices.findIndex((invoice) => invoice.id === id);
-
-				const newInvoices = [
-					...invoices.slice(0, idx),
-					{
-						...formData,
-						id: invoices[idx].id,
-						createdAt: invoices[idx].createdAt,
-						status: 'pending' as InvoiceStatus
-					},
-					...invoices.slice(idx + 1)
-				];
-				setItemToLS('invoices', JSON.stringify(newInvoices));
-				return newInvoices;
-			}),
+			update((invoices) =>
+				updateInvoice(id, invoices, (currentInvoice) => ({
+					...formData,
+					id: currentInvoice.id,
+					createdAt: currentInvoice.createdAt,
+					status: 'pending' as InvoiceStatus
+				}))
+			),
+		markAsPaid: (id: string) =>
+			update((invoices) =>
+				updateInvoice(id, invoices, (currentInvoice) => ({
+					...currentInvoice,
+					status: 'paid' as InvoiceStatus
+				}))
+			),
 		getById: (id: string) => state.find((invoice) => invoice.id === id)
 	};
 })();
