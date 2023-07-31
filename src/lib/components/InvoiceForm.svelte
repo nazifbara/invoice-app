@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { page } from '$app/stores';
 	import { invoiceModal, invoices } from '$lib/utils/stores';
@@ -16,7 +15,6 @@
 	import { getInvoiceItemTotal } from '$lib/utils/helpers';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
-
 	$: params = $page.params;
 
 	const form = superForm.form;
@@ -36,8 +34,6 @@
 			invoices.save($form);
 		}
 
-		console.log('hi');
-
 		cancel();
 		superForm.reset();
 	}
@@ -50,8 +46,10 @@
 	$: if (params.id) {
 		const invoice = invoices.getById(params.id);
 		if (invoice) {
-			form.set(invoice);
+			form.update(() => invoice, { taint: false });
 		}
+	} else {
+		superForm.reset();
 	}
 
 	const removeItem = (index: number) => {
