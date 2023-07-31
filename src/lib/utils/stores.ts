@@ -234,12 +234,15 @@ const DATA: Invoice[] = [
 const getInitialTheme = () => {
 	const storedTheme = getItemFromLS('theme');
 	if (storedTheme) {
+		window.document.documentElement.classList.add(storedTheme);
 		return storedTheme;
 	}
 	if (browser) {
 		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			window.document.documentElement.classList.add('dark');
 			return 'dark';
 		}
+		window.document.documentElement.classList.remove('dark');
 	}
 	return 'light';
 };
@@ -253,6 +256,8 @@ export const theme = (() => {
 			update((currentTheme) => {
 				const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 				setItemToLS('theme', newTheme);
+				window.document.documentElement.classList.remove(currentTheme);
+				window.document.documentElement.classList.add(newTheme);
 				return newTheme;
 			})
 	};

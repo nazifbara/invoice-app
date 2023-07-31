@@ -11,7 +11,7 @@
 		h1: ['text-xl', 'md:leading-[1.88]', 'md:text-[2rem]', 'dark:text-lightText'],
 		h2: ['text-xl', 'leading-[1.9]', 'dark:text-lightText'],
 		h3: ['text-base', 'leading-[1.67]', 'dark:text-lightText'],
-		h4: ['text-xs', 'leading-', 'dark:text-lightText'],
+		h4: ['text-xs', 'leading-[1.25]', 'dark:text-lightText'],
 		body1: ['text-darkText3', 'dark:text-lightText'],
 		body2: ['text-darkText2', 'dark:text-lightText2'],
 		body3: ['leading-relaxed', 'text-darkText3', 'dark:text-lightText'],

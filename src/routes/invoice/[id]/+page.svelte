@@ -18,7 +18,7 @@
 	} from '$lib/utils/helpers';
 	import { invoices } from '$lib/utils/stores';
 
-	const { trigger, overlay, content, title, description, close, open } = createDialog({
+	const { portal, trigger, overlay, content, title, description, close, open } = createDialog({
 		role: 'alertdialog'
 	});
 
@@ -31,25 +31,27 @@
 </script>
 
 {#if invoice}
-	{#if $open}
-		<div transition:fade melt={$overlay} class="fixed inset-0 z-40 bg-black/50" />
-		<div
-			transition:fly={{ y: -200 }}
-			class="fixed grid gap-4 left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
+	<div use:portal>
+		{#if $open}
+			<div transition:fade melt={$overlay} class="fixed inset-0 z-40 bg-black/50" />
+			<div
+				transition:fly={{ y: -200 }}
+				class="fixed grid gap-4 left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
 						max-w-[480px] translate-x-[-50%] translate-y-[-50%] rounded-lg bg-lightBg dark:bg-darkBg2
 						p-12 shadow-lg"
-			melt={$content}
-		>
-			<Typography as="h2" variant="h1" {...$title} action={title}>Confirm Deletion</Typography>
-			<Typography as="p" variant="body2" {...$description} action={description}>
-				Are you sure you want to delete invoice #{invoice.id}? This action cannot be undone.
-			</Typography>
-			<div class="flex justify-end gap-2">
-				<Button variant="edit" {...$close} action={close}>Cancel</Button>
-				<Button variant="danger" on:click={deleteInvoice}>Delete</Button>
+				melt={$content}
+			>
+				<Typography as="h2" variant="h1" {...$title} action={title}>Confirm Deletion</Typography>
+				<Typography as="p" variant="body2" {...$description} action={description}>
+					Are you sure you want to delete invoice #{invoice.id}? This action cannot be undone.
+				</Typography>
+				<div class="flex justify-end gap-2">
+					<Button variant="edit" {...$close} action={close}>Cancel</Button>
+					<Button variant="danger" on:click={deleteInvoice}>Delete</Button>
+				</div>
 			</div>
-		</div>
-	{/if}
+		{/if}
+	</div>
 
 	<article>
 		<GoBackBtn />
