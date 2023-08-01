@@ -91,5 +91,19 @@
 			<InvoiceBtn />
 		</div>
 	</div>
-	<InvoiceList invoices={filteredInvoices} />
+	{#if filteredInvoices.length !== 0}
+		<InvoiceList invoices={filteredInvoices} />
+	{:else}
+		<article class="w-full max-w-[242px] mx-auto">
+			<img class="mb-14" src="/illustration-empty.svg" alt="No invoices" />
+
+			<div class="grid gap-4">
+				<Typography as="h2" variant="h2">There is nothing here</Typography>
+				<Typography as="p" variant="body1">
+					Create a new invoice by clicking the
+					<strong>New Invoice</strong> button and get started
+				</Typography>
+			</div>
+		</article>
+	{/if}
 </div>

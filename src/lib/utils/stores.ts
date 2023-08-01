@@ -279,15 +279,15 @@ const getInitialInvoices = () => {
 	if (invoicesStr) {
 		return JSON.parse(invoicesStr) as Invoice[];
 	}
-	return null;
+	return DATA;
 };
 
 export const invoices = (() => {
-	const state: Invoice[] = getInitialInvoices() ?? DATA;
+	const invoices = getInitialInvoices();
 
-	setItemToLS('invoices', JSON.stringify(state));
+	const { subscribe, update } = writable<Invoice[]>(invoices);
 
-	const { subscribe, update } = writable<Invoice[]>(state);
+	setItemToLS('invoices', JSON.stringify(invoices));
 
 	return {
 		subscribe,
@@ -328,6 +328,6 @@ export const invoices = (() => {
 					status: 'paid' as InvoiceStatus
 				}))
 			),
-		getById: (id: string) => state.find((invoice) => invoice.id === id)
+		getById: (id: string) => invoices.find((invoice) => invoice.id === id)
 	};
 })();
