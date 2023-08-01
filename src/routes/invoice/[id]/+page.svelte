@@ -17,6 +17,7 @@
 		getDueDate
 	} from '$lib/utils/helpers';
 	import { invoices } from '$lib/utils/stores';
+	import Id from '$lib/components/ID.svelte';
 
 	const { portal, trigger, overlay, content, title, description, close, open } = createDialog({
 		role: 'alertdialog'
@@ -98,11 +99,7 @@
 		<div class="bg-lightBg2 dark:bg-darkBg2 p-6 rounded-lg md:p-8">
 			<div class="flex flex-col gap-7 mb-8 md:flex-row justify-between">
 				<h1 class="flex flex-col gap-1">
-					<Typography as="span" variant="h3" inline>
-						<span class="before:content-['#'] before:text-darkText2 mb-4 sm:mb-0">
-							{invoice.id}
-						</span>
-					</Typography>
+					<Id id={invoice.id} typoVariant="h3" />
 					<Typography as="span" variant="body2">
 						{invoice.description}
 					</Typography>

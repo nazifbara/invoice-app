@@ -3,6 +3,7 @@
 	import { formatPrice, formatDate, getInvoiceTotal, getDueDate } from '$lib/utils/helpers';
 
 	import Badge from '$lib/components/Badge.svelte';
+	import ID from '$lib/components/ID.svelte';
 	import Icon from './Icon.svelte';
 	import Typography from './Typography.svelte';
 
@@ -34,11 +35,7 @@
           dark:bg-darkBg2
         `}
 			>
-				<span class="font-bold before:content-['#'] before:text-darkText2 mb-4 sm:mb-0">
-					<Typography as="span" variant="h4" inline>
-						{invoice.id}
-					</Typography>
-				</span>
+				<ID id={invoice.id} typoVariant="h4" />
 				<span class="self-center sm:col-start-2">
 					<Typography as="span" variant="body2">
 						Due {formatDate(

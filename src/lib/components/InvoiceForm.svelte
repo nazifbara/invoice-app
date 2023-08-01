@@ -13,6 +13,7 @@
 	import Button from './Button.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import { getInvoiceItemTotal } from '$lib/utils/helpers';
+	import ID from './ID.svelte';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 	$: params = $page.params;
@@ -104,7 +105,7 @@
 		<form class="px-6 py-8 md:px-14 [&>h2]:mb-6 relative" method="POST" use:enhance>
 			<span class="md:hidden"><GoBack as="button" on:click={invoiceModal.close} /></span>
 			{#if params.id}
-				<Typography as="h2" variant="h2">Edit #{params.id}</Typography>
+				<Typography as="h2" variant="h2">Edit <ID id={params.id} typoVariant="h2" /></Typography>
 			{:else}
 				<Typography as="h2" variant="h2">New Invoice</Typography>
 			{/if}
