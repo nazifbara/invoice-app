@@ -20,7 +20,7 @@
 
 	$: inputClass = `
 		${commonClass}
-		px-5
+		px-2
 		bg-white
 		text-darkText
 		border
@@ -64,6 +64,7 @@
 		aria-invalid={invalid ? true : undefined}
 		on:input={handleInput}
 		class={disabled ? disabledInputClass : inputClass}
+		step="any"
 	/>
 </label>
 

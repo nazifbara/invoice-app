@@ -44,7 +44,7 @@
 			font-bold
 			border
 			border-lightText2
-			px-5
+			px-2
 			py-4
 			outline-none
 			rounded-[0.25rem]
