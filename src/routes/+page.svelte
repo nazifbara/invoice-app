@@ -2,7 +2,6 @@
 	import { createPopover } from '@melt-ui/svelte';
 	import { fly } from 'svelte/transition';
 
-	import data from '$lib/data.json';
 	import InvoiceList from '$lib/components/InvoiceList.svelte';
 	import Typography from '$lib/components/Typography.svelte';
 	import InvoiceBtn from '$lib/components/InvoiceBtn.svelte';
@@ -10,9 +9,34 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import { invoices } from '$lib/utils/stores';
 
+	const conjunctionFormatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+
 	const { trigger, content, open } = createPopover();
 
 	let selectedStatus: string[] = [];
+
+	$: countMessage = (() => {
+		if ((selectedStatus.length === 3 || selectedStatus.length === 0) && $invoices.length === 0) {
+			return 'No invoices';
+		} else if (
+			(selectedStatus.length === 3 || selectedStatus.length === 0) &&
+			$invoices.length !== 0
+		) {
+			return `${$invoices.length} total invoice(s)`;
+		}
+
+		let count: { [key: string]: number } = selectedStatus.reduce(
+			(prev, curr) => ({ ...prev, [curr]: 0 }),
+			{}
+		);
+		filteredInvoices.forEach((invoices) => {
+			const status = invoices.status;
+			count[status] = count[status] + 1;
+		});
+		return `${conjunctionFormatter.format(
+			Object.entries(count).map(([status, value]) => `${value} ${status}`)
+		)} invoice(s)`;
+	})();
 
 	$: filteredInvoices = (() => {
 		if (selectedStatus.length === 0) return $invoices;
@@ -25,8 +49,7 @@
 		<div>
 			<Typography as="h1" variant="h1">Invoices</Typography>
 			<Typography as="p" variant="body1">
-				<span class="hidden md:inline">There are {data.length} total invoices</span>
-				<span class="md:hidden">{data.length} invoices</span>
+				{countMessage}
 			</Typography>
 		</div>
 		<div class="flex items-center gap-[1.125rem] md:gap-10">
