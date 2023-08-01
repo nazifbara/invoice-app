@@ -12,9 +12,12 @@
 
 	const { trigger, content, open } = createPopover();
 
-	let filters: string[] = [];
+	let selectedStatus: string[] = [];
 
-	$: console.log(filters);
+	$: filteredInvoices = (() => {
+		if (selectedStatus.length === 0) return $invoices;
+		return $invoices.filter((invoice) => selectedStatus.includes(invoice.status));
+	})();
 </script>
 
 <div class="grid gap-8 md:gap-14">
@@ -44,17 +47,17 @@
 						{#each ['Draft', 'Pending', 'Paid'] as status}
 							<Checkbox
 								labelText={status}
-								checked={filters.includes(status.toLowerCase())}
+								checked={selectedStatus.includes(status.toLowerCase())}
 								on:change={(e) => {
 									let loweredStatus = status.toLowerCase();
 									if (e?.target?.checked) {
-										filters = [...filters, loweredStatus];
+										selectedStatus = [...selectedStatus, loweredStatus];
 									} else {
-										filters.splice(
-											filters.findIndex((filter) => filter === loweredStatus),
+										selectedStatus.splice(
+											selectedStatus.findIndex((filter) => filter === loweredStatus),
 											1
 										);
-										filters = filters;
+										selectedStatus = selectedStatus;
 									}
 								}}
 							/>
@@ -65,5 +68,5 @@
 			<InvoiceBtn />
 		</div>
 	</div>
-	<InvoiceList invoices={$invoices} />
+	<InvoiceList invoices={filteredInvoices} />
 </div>

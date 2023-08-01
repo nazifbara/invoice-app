@@ -291,6 +291,12 @@ export const invoices = (() => {
 
 	return {
 		subscribe,
+		filter: (status: string[]) =>
+			update((invoices) => {
+				if (status.length === 0) return invoices;
+
+				return invoices.filter((invoice) => status.includes(invoice.status));
+			}),
 		save: (formData: InvoiceFormData, asDraft = false) =>
 			update((invoices) => {
 				const newInvoices = [
