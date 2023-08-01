@@ -10,14 +10,25 @@ const dollarUSLocale = Intl.NumberFormat('en-US', {
 	currency: 'USD'
 });
 
-export const makeInvoice = (
-	data: InvoiceFormData,
-	totalInvoices: number,
-	status: InvoiceStatus = 'pending'
-): Invoice => ({
+export const generateID = () => {
+	let id = '';
+	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+
+	for (let index = 0; index < 2; index++) {
+		id = id + alphabets[Math.floor(Math.random() * 13)];
+	}
+
+	for (let index = 0; index < 4; index++) {
+		id = id + Math.floor(Math.random() * 10);
+	}
+
+	return id;
+};
+
+export const makeInvoice = (data: InvoiceFormData, status: InvoiceStatus = 'pending'): Invoice => ({
 	...data,
 	createdAt: new Date().toUTCString(),
-	id: String(totalInvoices + 1),
+	id: generateID(),
 	status
 });
 

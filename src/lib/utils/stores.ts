@@ -299,10 +299,7 @@ export const invoices = (() => {
 			}),
 		save: (formData: InvoiceFormData, asDraft = false) =>
 			update((invoices) => {
-				const newInvoices = [
-					makeInvoice(formData, invoices.length, asDraft ? 'draft' : 'pending'),
-					...invoices
-				];
+				const newInvoices = [makeInvoice(formData, asDraft ? 'draft' : 'pending'), ...invoices];
 				setItemToLS('invoices', JSON.stringify(newInvoices));
 				return newInvoices;
 			}),
@@ -327,7 +324,6 @@ export const invoices = (() => {
 					...currentInvoice,
 					status: 'paid' as InvoiceStatus
 				}))
-			),
-		getById: (id: string) => invoices.find((invoice) => invoice.id === id)
+			)
 	};
 })();

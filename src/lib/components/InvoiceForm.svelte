@@ -45,7 +45,8 @@
 		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
 
 	$: if (params.id) {
-		const invoice = invoices.getById(params.id);
+		const invoice = $invoices.find((invoice) => invoice.id === params.id);
+
 		if (invoice) {
 			form.update(() => invoice, { taint: false });
 		}
