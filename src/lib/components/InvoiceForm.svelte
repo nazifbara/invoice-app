@@ -41,6 +41,12 @@
 
 	$: formIsOpen = $invoiceModal.opened;
 
+	$: if (formIsOpen) {
+		document.body.style.overflow = 'hidden';
+	} else {
+		document.body.style.overflow = 'initial';
+	}
+
 	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
 		Boolean($errors.items && $errors.items[index] && $errors.items[index][field]);
 
@@ -50,8 +56,6 @@
 		if (invoice) {
 			form.update(() => invoice, { taint: false });
 		}
-	} else {
-		superForm.reset();
 	}
 
 	const removeItem = (index: number) => {
