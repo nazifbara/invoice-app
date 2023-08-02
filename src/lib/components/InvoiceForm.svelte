@@ -14,6 +14,7 @@
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import { getInvoiceItemTotal } from '$lib/utils/helpers';
 	import ID from './ID.svelte';
+	import { browser } from '$app/environment';
 
 	export let superForm: SuperForm<typeof invoiceSchema>;
 	$: params = $page.params;
@@ -41,10 +42,12 @@
 
 	$: formIsOpen = $invoiceModal.opened;
 
-	$: if (formIsOpen) {
-		document.body.style.overflow = 'hidden';
-	} else {
-		document.body.style.overflow = 'initial';
+	$: if (browser) {
+		if (formIsOpen) {
+			window.document.body.style.overflow = 'hidden';
+		} else {
+			window.document.body.style.overflow = 'initial';
+		}
 	}
 
 	$: isItemInputValid = (index: number, field: 'name' | 'quantity' | 'price') =>
