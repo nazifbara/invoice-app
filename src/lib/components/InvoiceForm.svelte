@@ -23,7 +23,6 @@
 	let posted = superForm.posted;
 	let errors = superForm.errors;
 	const constraints = superForm.constraints;
-	const emptyMessage = "cant't be empty";
 	let enhance = superForm.enhance;
 	const formGroupClass = 'grid gap-6 [&>h3]:!text-primary';
 	const locationClass =
@@ -124,7 +123,7 @@
 
 					<InputField
 						invalid={Boolean($errors.senderAddress?.street)}
-						errorMessage={$errors.senderAddress?.street ? emptyMessage : ''}
+						errorMessage={$errors.senderAddress?.street && $errors.senderAddress?.street[0]}
 						label="Street Address"
 						name="senderStreet"
 						bind:value={$form.senderAddress.street}
@@ -159,7 +158,7 @@
 					<Typography as="h3" variant="body1" bold>Bill To</Typography>
 					<InputField
 						invalid={Boolean($errors.clientName)}
-						errorMessage={$errors.clientName ? emptyMessage : ''}
+						errorMessage={$errors.clientName && $errors.clientName[0]}
 						label="Client's Name"
 						name="clientName"
 						bind:value={$form.clientName}
@@ -167,7 +166,7 @@
 					/>
 					<InputField
 						invalid={Boolean($errors.clientEmail)}
-						errorMessage={$errors.clientEmail ? emptyMessage : ''}
+						errorMessage={$errors.clientEmail && $errors.clientEmail[0]}
 						label="Client's Email"
 						name="clientEmail"
 						bind:value={$form.clientEmail}
@@ -175,7 +174,7 @@
 					/>
 					<InputField
 						invalid={Boolean($errors.clientAddress?.street)}
-						errorMessage={$errors.clientAddress?.street ? emptyMessage : ''}
+						errorMessage={$errors.clientAddress?.street && $errors.clientAddress?.street[0]}
 						label="Street Address"
 						name="clientStreet"
 						bind:value={$form.clientAddress.street}
