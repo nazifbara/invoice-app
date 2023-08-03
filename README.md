@@ -29,8 +29,8 @@ Users should be able to:
 
 ### Links
 
-- [Solution URL](https://your-solution-url.com)
-- [Live Site URL](https://your-live-site-url.com)
+- [Solution URL](https://www.frontendmentor.io/solutions/invoice-app-with-sveltekit-superforms-melt-ui-and-tailwind-4YkrGeM3Ld)
+- [Live Site URL](https://fm-nazif-invoice-app.netlify.app/)
 
 ## Built with
 
