@@ -109,139 +109,140 @@
       lg:inset-y-0
   `}
 	>
-		<form class="px-6 py-8 md:px-14 [&>h2]:mb-6 relative" method="POST" use:enhance>
-			<span class="md:hidden"><GoBack as="button" on:click={invoiceModal.close} /></span>
-			{#if params.id}
-				<Typography as="h2" variant="h2">Edit <ID id={params.id} typoVariant="h2" /></Typography>
-			{:else}
-				<Typography as="h2" variant="h2">New Invoice</Typography>
-			{/if}
+		<form class="pt-8 md:px-14 md:py-8 [&>h2]:mb-6 relative" method="POST" use:enhance>
+			<div class="px-6">
+				<span class="md:hidden"><GoBack as="button" on:click={invoiceModal.close} /></span>
+				{#if params.id}
+					<Typography as="h2" variant="h2">Edit <ID id={params.id} typoVariant="h2" /></Typography>
+				{:else}
+					<Typography as="h2" variant="h2">New Invoice</Typography>
+				{/if}
 
-			<section class="grid gap-10 mb-14">
-				<div class={formGroupClass}>
-					<Typography as="h3" variant="body1" bold>Bill From</Typography>
+				<section class="grid gap-10 mb-14">
+					<div class={formGroupClass}>
+						<Typography as="h3" variant="body1" bold>Bill From</Typography>
 
-					<InputField
-						invalid={Boolean($errors.senderAddress?.street)}
-						errorMessage={$errors.senderAddress?.street && $errors.senderAddress?.street[0]}
-						label="Street Address"
-						name="senderStreet"
-						bind:value={$form.senderAddress.street}
-						{...$constraints.senderAddress?.street}
-					/>
-					<div class={locationClass}>
 						<InputField
-							invalid={Boolean($errors.senderAddress?.city)}
-							label="City"
-							name="senderCity"
-							bind:value={$form.senderAddress.city}
-							{...$constraints.senderAddress?.city}
+							invalid={Boolean($errors.senderAddress?.street)}
+							errorMessage={$errors.senderAddress?.street && $errors.senderAddress?.street[0]}
+							label="Street Address"
+							name="senderStreet"
+							bind:value={$form.senderAddress.street}
+							{...$constraints.senderAddress?.street}
+						/>
+						<div class={locationClass}>
+							<InputField
+								invalid={Boolean($errors.senderAddress?.city)}
+								label="City"
+								name="senderCity"
+								bind:value={$form.senderAddress.city}
+								{...$constraints.senderAddress?.city}
+							/>
+							<InputField
+								invalid={Boolean($errors.senderAddress?.postCode)}
+								label="Post Code"
+								name="senderPostCode"
+								bind:value={$form.senderAddress.postCode}
+								{...$constraints.senderAddress?.postCode}
+							/>
+							<InputField
+								invalid={Boolean($errors.senderAddress?.country)}
+								label="Country"
+								name="senderCountry"
+								bind:value={$form.senderAddress.country}
+								{...$constraints.senderAddress?.country}
+							/>
+						</div>
+					</div>
+
+					<div class={formGroupClass}>
+						<Typography as="h3" variant="body1" bold>Bill To</Typography>
+						<InputField
+							invalid={Boolean($errors.clientName)}
+							errorMessage={$errors.clientName && $errors.clientName[0]}
+							label="Client's Name"
+							name="clientName"
+							bind:value={$form.clientName}
+							{...$constraints.clientName}
 						/>
 						<InputField
-							invalid={Boolean($errors.senderAddress?.postCode)}
-							label="Post Code"
-							name="senderPostCode"
-							bind:value={$form.senderAddress.postCode}
-							{...$constraints.senderAddress?.postCode}
+							invalid={Boolean($errors.clientEmail)}
+							errorMessage={$errors.clientEmail && $errors.clientEmail[0]}
+							label="Client's Email"
+							name="clientEmail"
+							bind:value={$form.clientEmail}
+							{...$constraints.clientEmail}
 						/>
 						<InputField
-							invalid={Boolean($errors.senderAddress?.country)}
-							label="Country"
-							name="senderCountry"
-							bind:value={$form.senderAddress.country}
-							{...$constraints.senderAddress?.country}
+							invalid={Boolean($errors.clientAddress?.street)}
+							errorMessage={$errors.clientAddress?.street && $errors.clientAddress?.street[0]}
+							label="Street Address"
+							name="clientStreet"
+							bind:value={$form.clientAddress.street}
+							{...$constraints.clientAddress?.street}
+						/>
+						<div class={locationClass}>
+							<InputField
+								invalid={Boolean($errors.clientAddress?.city)}
+								label="City"
+								name="clientCity"
+								bind:value={$form.clientAddress.city}
+								{...$constraints.clientAddress?.city}
+							/>
+							<InputField
+								invalid={Boolean($errors.clientAddress?.postCode)}
+								label="Post Code"
+								name="clientPostCode"
+								bind:value={$form.clientAddress.postCode}
+								{...$constraints.clientAddress?.postCode}
+							/>
+							<InputField
+								invalid={Boolean($errors.clientAddress?.country)}
+								label="Country"
+								name="clientCountry"
+								bind:value={$form.clientAddress.country}
+								{...$constraints.clientAddress?.country}
+							/>
+						</div>
+						<div class="grid gap-6 pt-4 md:grid-cols-2 md:pt-6">
+							<InputField
+								invalid={Boolean($errors.invoiceDate)}
+								label="Invoice Date"
+								name="invoiceDate"
+								type="date"
+								bind:value={$form.invoiceDate}
+								{...$constraints.invoiceDate}
+							/>
+							<Select
+								label="Payement Terms"
+								options={[
+									{ label: 'Net 1 Day', value: '1' },
+									{ label: 'Net 7 Days', value: '7' },
+									{ label: 'Net 14 Days', value: '14' },
+									{ label: 'Net 30 Days', value: '30' }
+								]}
+								bind:value={$form.paymentTerms}
+								{...$constraints.paymentTerms}
+							/>
+						</div>
+						<InputField
+							invalid={Boolean($errors.description)}
+							label="Project Description"
+							name="description"
+							bind:value={$form.description}
+							{...$constraints.description}
 						/>
 					</div>
-				</div>
+				</section>
 
-				<div class={formGroupClass}>
-					<Typography as="h3" variant="body1" bold>Bill To</Typography>
-					<InputField
-						invalid={Boolean($errors.clientName)}
-						errorMessage={$errors.clientName && $errors.clientName[0]}
-						label="Client's Name"
-						name="clientName"
-						bind:value={$form.clientName}
-						{...$constraints.clientName}
-					/>
-					<InputField
-						invalid={Boolean($errors.clientEmail)}
-						errorMessage={$errors.clientEmail && $errors.clientEmail[0]}
-						label="Client's Email"
-						name="clientEmail"
-						bind:value={$form.clientEmail}
-						{...$constraints.clientEmail}
-					/>
-					<InputField
-						invalid={Boolean($errors.clientAddress?.street)}
-						errorMessage={$errors.clientAddress?.street && $errors.clientAddress?.street[0]}
-						label="Street Address"
-						name="clientStreet"
-						bind:value={$form.clientAddress.street}
-						{...$constraints.clientAddress?.street}
-					/>
-					<div class={locationClass}>
-						<InputField
-							invalid={Boolean($errors.clientAddress?.city)}
-							label="City"
-							name="clientCity"
-							bind:value={$form.clientAddress.city}
-							{...$constraints.clientAddress?.city}
-						/>
-						<InputField
-							invalid={Boolean($errors.clientAddress?.postCode)}
-							label="Post Code"
-							name="clientPostCode"
-							bind:value={$form.clientAddress.postCode}
-							{...$constraints.clientAddress?.postCode}
-						/>
-						<InputField
-							invalid={Boolean($errors.clientAddress?.country)}
-							label="Country"
-							name="clientCountry"
-							bind:value={$form.clientAddress.country}
-							{...$constraints.clientAddress?.country}
-						/>
-					</div>
-					<div class="grid gap-6 pt-4 md:grid-cols-2 md:pt-6">
-						<InputField
-							invalid={Boolean($errors.invoiceDate)}
-							label="Invoice Date"
-							name="invoiceDate"
-							type="date"
-							bind:value={$form.invoiceDate}
-							{...$constraints.invoiceDate}
-						/>
-						<Select
-							label="Payement Terms"
-							options={[
-								{ label: 'Net 1 Day', value: '1' },
-								{ label: 'Net 7 Days', value: '7' },
-								{ label: 'Net 14 Days', value: '14' },
-								{ label: 'Net 30 Days', value: '30' }
-							]}
-							bind:value={$form.paymentTerms}
-							{...$constraints.paymentTerms}
-						/>
-					</div>
-					<InputField
-						invalid={Boolean($errors.description)}
-						label="Project Description"
-						name="description"
-						bind:value={$form.description}
-						{...$constraints.description}
-					/>
-				</div>
-			</section>
+				<section class="mb-12">
+					<h3 class="!text-[#777F98] font-bold text-lg mb-6">Item List</h3>
 
-			<section class="mb-12">
-				<h3 class="!text-[#777F98] font-bold text-lg mb-6">Item List</h3>
-
-				<div class="grid gap-12">
-					{#each $form.items as _, i}
-						<div class={formGroupClass}>
-							<div
-								class={`
+					<div class="grid gap-12">
+						{#each $form.items as _, i}
+							<div class={formGroupClass}>
+								<div
+									class={`
                 grid
                 grid-cols-[minmax(0,_2fr),_minmax(0,_3fr),_minmax(0,_2fr),_minmax(0,_1fr)]
                 items-center
@@ -250,64 +251,63 @@
                 md:grid-cols-[minmax(0,_8fr),_repeat(3,_minmax(0,_3fr)),_minmax(0,_auto)]
                 md:[&>:first-child]:col-span-1
             `}
-							>
-								<InputField
-									invalid={isItemInputValid(i, 'name')}
-									label="Item Name"
-									name={`item-${i}`}
-									bind:value={$form.items[i].name}
-								/>
-								<InputField
-									invalid={isItemInputValid(i, 'quantity')}
-									label="Qty"
-									type="number"
-									name={`item-qty-${i}`}
-									bind:value={$form.items[i].quantity}
-								/>
-								<InputField
-									invalid={isItemInputValid(i, 'price')}
-									label="Price"
-									type="number"
-									name={`item-${i}-price`}
-									bind:value={$form.items[i].price}
-								/>
-								<InputField
-									disabled
-									label="Total"
-									name={`item-${i}-total`}
-									value={getInvoiceItemTotal($form.items[i])}
-								/>
-								<button
-									type="button"
-									on:click={() => removeItem(i)}
-									class="translate-y-3/4 place-self-center"><Icon name="delete" /></button
 								>
+									<InputField
+										invalid={isItemInputValid(i, 'name')}
+										label="Item Name"
+										name={`item-${i}`}
+										bind:value={$form.items[i].name}
+									/>
+									<InputField
+										invalid={isItemInputValid(i, 'quantity')}
+										label="Qty"
+										type="number"
+										name={`item-qty-${i}`}
+										bind:value={$form.items[i].quantity}
+									/>
+									<InputField
+										invalid={isItemInputValid(i, 'price')}
+										label="Price"
+										type="number"
+										name={`item-${i}-price`}
+										bind:value={$form.items[i].price}
+									/>
+									<InputField
+										disabled
+										label="Total"
+										name={`item-${i}-total`}
+										value={getInvoiceItemTotal($form.items[i])}
+									/>
+									<button
+										type="button"
+										on:click={() => removeItem(i)}
+										class="translate-y-3/4 place-self-center"><Icon name="delete" /></button
+									>
+								</div>
 							</div>
-						</div>
-					{/each}
-					<ItemBtn on:click={addItem} />
-				</div>
-			</section>
+						{/each}
+						<ItemBtn on:click={addItem} />
+					</div>
+				</section>
 
-			{#if Object.keys($errors).length !== 0}
-				<ul class="text-danger mb-32 md:mb-11">
-					<li>- All fields must be added</li>
-					{#if $errors.items}
-						<li>- An item must be added</li>
-					{/if}
-				</ul>
-			{/if}
-
+				{#if Object.keys($errors).length !== 0}
+					<ul class="text-danger mb-32 md:mb-11">
+						<li>- All fields must be added</li>
+						{#if $errors.items}
+							<li>- An item must be added</li>
+						{/if}
+					</ul>
+				{/if}
+			</div>
 			<div
 				class={`
-          absolute
           bottom-0
           right-0
           left-0
           p-6
           bg-lightBg2
           dark:bg-darkBg2
-          md:relative
+					md:px-6
           md:bg-transparent
           md:dark:bg-transparent
           md:p-0
