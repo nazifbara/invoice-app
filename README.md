@@ -1,38 +1,50 @@
-# create-svelte
+# Frontend Mentor - Invoice app solution
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+![](./screenshot.jpg)
 
-## Creating a project
+This is a solution to the [Invoice app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Table of contents
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Links](#links)
+- [Built with](#built-with)
+- [Author](#author)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Overview
 
-## Developing
+### The challenge
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Users should be able to:
 
-```bash
-npm run dev
+- View the optimal layout for the app depending on their device's screen size
+- See hover states for all interactive elements on the page
+- Create, read, update, and delete invoices
+- Receive form validations when trying to create/edit an invoice
+- Save draft invoices, and mark pending invoices as paid
+- Filter invoices by status (draft/pending/paid)
+- Toggle light and dark mode
+- Keep track of any changes, even after refreshing the browser
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Links
 
-## Building
+- [Solution URL](https://your-solution-url.com)
+- [Live Site URL](https://your-live-site-url.com)
 
-To create a production version of your app:
+## Built with
 
-```bash
-npm run build
-```
+- Semantic HTML5 markup
+- CSS custom properties
+- Flexbox
+- CSS Grid
+- Mobile-first workflow
+- [Sveltekit](https://kit.svelte.dev/) - JS library
+- [Superforms](https://superforms.rocks/) - SvelteKit library for server and client validation of forms
+- [Melt UI](https://melt-ui.com/) - Headless UI library for Svelte
 
-You can preview the production build with `npm run preview`.
+## Author
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Website - [nazifbara.com](https://www.nazifbara.com)
+- Twitter - [@nazifbara](https://www.twitter.com/nazifbara)
+- Frontend Mentor - [@nazifbara](https://www.frontendmentor.io/profile/nazifbara)
