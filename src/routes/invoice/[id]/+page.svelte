@@ -125,12 +125,13 @@
 					<div class="mb-3">
 						<Typography as="h3" variant="body2">Payment Due</Typography>
 					</div>
-					<Typography as="p" variant="h3"
-						>{invoice &&
-							formatDate(
+					<Typography as="p" variant="h3">
+						{#if invoice.invoiceDate}
+							Due {formatDate(
 								getDueDate(new Date(invoice.invoiceDate), Number(invoice.paymentTerms))
-							)}</Typography
-					>
+							)}
+						{/if}
+					</Typography>
 				</div>
 
 				<div class="row-start-1 row-span-2 col-start-2">

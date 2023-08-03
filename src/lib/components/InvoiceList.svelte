@@ -38,9 +38,11 @@
 				<ID id={invoice.id} typoVariant="h4" />
 				<span class="self-center sm:col-start-2">
 					<Typography as="span" variant="body2">
-						Due {formatDate(
-							getDueDate(new Date(invoice.invoiceDate), Number(invoice.paymentTerms))
-						)}
+						{#if invoice.invoiceDate}
+							Due {formatDate(
+								getDueDate(new Date(invoice.invoiceDate), Number(invoice.paymentTerms))
+							)}
+						{/if}
 					</Typography>
 				</span>
 				<span class="col-start-2 row-start-1 mb-4 sm:mb-0 sm:col-start-3">
